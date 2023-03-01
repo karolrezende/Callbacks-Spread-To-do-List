@@ -1,23 +1,24 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import CreateList from './CreateList/CreateList';
+import CreateTodo from './CreateTodo/CreateTodo';
 import './App.css';
 
 function App() {
+  const [list, setList] = useState([])
+
+  function setListValue(value){
+    if(value!==undefined){
+      setList([...list, {task:value,  id: Math.random()}])
+      console.log(list)
+    }
+  }
+  function buttonRemove(id){
+    setList(list.filter(task=> task.id !== id))
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='div-main'>
+      <CreateList setValue={setListValue}/>
+      <CreateTodo setValue={list.map(taskName=> taskName.task)} setId={list.map(id=> id.id)} buttonRemove={buttonRemove}/>
     </div>
   );
 }
